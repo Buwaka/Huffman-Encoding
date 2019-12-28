@@ -2,20 +2,68 @@
 //
 
 #include "pch.h"
-#include <iostream>
+#include "Tree.h"
+
+
+
+void CreateTree(std::priority_queue<TreeWrapper>& que, string input)
+{
+	std::map<char, size_t> characterTable;
+
+	for (size_t i = 0; i < input.length(); i++)
+	{
+		characterTable[input[i]]++;
+	}
+
+	std::vector<std::pair<char, size_t>> intermediate(characterTable.begin(),characterTable.end());
+
+	std::sort(intermediate.begin(), intermediate.end(), [](std::pair<char, size_t> a, std::pair<char, size_t> b) {return a.second > b.second; });
+
+
+	size_t length = intermediate.size();	
+
+	for (size_t i = 0; i < length; i++)
+	{
+		que.push(TreeWrapper(new Tree(intermediate[i].second, intermediate[i].first)));
+	}
+
+	while (que.size() != 1)
+	{
+		Tree* x(que.top().tree);
+		que.pop();
+		Tree* y(que.top().tree);
+		que.pop();
+
+		Tree* node = new Tree(x->getWeight() + y->getWeight(),x,y);
+
+		que.push(node);
+	}
+
+}
+
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+	std::string input;
+	std::cout << "Input: ";
+	std::getline(std::cin, input);
+
+	std::priority_queue<TreeWrapper> que;
+
+	CreateTree(que, input);
+
+	string comp = input;
+	que.top().tree->Compress(comp);
+
+	std::cout << comp <<std::endl;
+
+	std::string vstr{};
+	que.top().tree->printTree(vstr);
+
+	string decomp = comp;
+	que.top().tree->Decompress(decomp);
+
+    std::cout << decomp << std::endl;
+	std::cout << vstr << std::endl;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
