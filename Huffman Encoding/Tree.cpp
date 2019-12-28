@@ -89,6 +89,22 @@ void Tree::Decompress(string & bitstring)
 	}
 }
 
+void Tree::Release()
+{
+	if (left != nullptr)
+	{
+		left->Release();
+		delete left;
+	}
+
+	if (right != nullptr)
+	{
+		right->Release();
+		delete right;
+	}
+
+}
+
 void Tree::print(string & out, string bits)
 {
 
