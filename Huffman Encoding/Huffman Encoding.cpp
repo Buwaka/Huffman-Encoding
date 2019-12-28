@@ -33,8 +33,8 @@ int main()
     std::cout << decomp << std::endl;
 	std::cout << vstr << std::endl;
 
-	//auto temp = que.top();
-	//que.pop();
-	//temp.Release();
+	auto temp = que.top();
+	que.pop();
+	temp.Release();
 }
 
