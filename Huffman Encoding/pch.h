@@ -10,9 +10,10 @@
 #define PCH_H
 
 #include <iostream>
+#include <vector>
+#include <unordered_map>
 #include <string>
 #include <queue>
-#include <map>
 #include <algorithm>
 
 // TODO: add headers that you want to pre-compile here

@@ -1,6 +1,4 @@
 #pragma once
-#include <vector>
-#include <iostream>
 
 using namespace std;
 
@@ -56,26 +54,19 @@ struct TreeWrapper {
 
 static void CreateHuffmanTree(std::priority_queue<TreeWrapper>& que, string input)
 {
-	std::map<char, size_t> characterTable;
+	std::unordered_map<char, size_t> characterTable;
 
 	for (size_t i = 0; i < input.length(); i++)
 	{
 		characterTable[input[i]]++;
 	}
 
-	std::vector<std::pair<char, size_t>> intermediate(characterTable.begin(), characterTable.end());
-
-	std::sort(intermediate.begin(), intermediate.end(), [](std::pair<char, size_t> a, std::pair<char, size_t> b) {return a.second > b.second; });
-
-
-	size_t length = intermediate.size();
-
-	for (size_t i = 0; i < length; i++)
+	for (auto pair : characterTable)
 	{
-		que.push(new Tree(intermediate[i].second, intermediate[i].first));
+		que.push(new Tree(pair.second, pair.first));
 	}
 
-	while (que.size() != 1)
+	while (que.size() > 1)
 	{
 		Tree* x(que.top().tree);
 		que.pop();
